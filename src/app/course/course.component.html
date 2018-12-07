@@ -1,3 +1,13 @@
-<p>
-  course works!
-</p>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{courseObject.title}}</h5>
+    <div class="card-subtitle mb-2 text-muted">{{courseObject.duration}}</div>
+    <p class="card-text">{{courseObject.description}}</p>
+    <button class="btn btn-success btn-sm">Edit</button>
+    <button class="btn btn-danger btn-sm ml-2" (click)="deleteCourse(courseObject.id)">Delete</button>
+  </div>
+  <div class="card-footer">
+    <small class="text-muted">Created: {{courseObject.creationDate}}</small>
+  </div>
+</div>
+

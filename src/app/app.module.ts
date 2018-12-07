@@ -8,10 +8,11 @@ import { LogoComponent } from './logo/logo.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { NavigationPanelComponent } from './navigation-panel/navigation-panel.component';
 import { CoursesComponent } from './courses/courses.component';
 import { CourseComponent } from './course/course.component';
 import { FooterComponent } from './footer/footer.component';
+import { SearchComponent } from './search/search.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,13 +22,14 @@ import { FooterComponent } from './footer/footer.component';
     LoginComponent,
     LogoutComponent,
     BreadcrumbsComponent,
-    NavigationPanelComponent,
     CoursesComponent,
     CourseComponent,
-    FooterComponent
+    FooterComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

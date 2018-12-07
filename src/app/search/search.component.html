@@ -1,0 +1,8 @@
+<form class="form-inline">
+  <div class="form-group mb-2">
+    <label for="search" class="sr-only">Search</label>
+    <input type="text" class="form-control" id="search" placeholder="Text to search.." [(ngModel)]="searchQuery"
+           [ngModelOptions]="{standalone: true}">
+  </div>
+  <button type="submit" class="btn btn-secondary mb-2 ml-1" (click)="consoleSearchQuery()">Search</button>
+</form>
