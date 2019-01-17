@@ -1,0 +1,6 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.text-white .card-subtitle, .text-white .card-footer small {
+  color: $white !important;
+}

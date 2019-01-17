@@ -13,6 +13,7 @@ import { CourseComponent } from './course/course.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
+import { HighlighCourseDirective } from './-highligh-course.directive';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     CoursesComponent,
     CourseComponent,
     FooterComponent,
-    SearchComponent
+    SearchComponent,
+    HighlighCourseDirective
   ],
   imports: [
     BrowserModule,

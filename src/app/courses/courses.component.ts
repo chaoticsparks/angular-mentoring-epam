@@ -25,14 +25,14 @@ export class CoursesComponent implements OnInit {
       new Course(
         1,
         'Second course',
-        '08.12.2018',
+        '19.02.2019',
         'Description 2',
         '1 hours'
       ),
       new Course(
         2,
         'Third course',
-        '09.12.2018',
+        '17.01.2019',
         'Description 3',
         '2 hours'
       ),
