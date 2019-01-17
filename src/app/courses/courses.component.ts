@@ -10,6 +10,7 @@ import { ICourse } from '../icourse';
 export class CoursesComponent implements OnInit {
 
   public courses!: ICourse[];
+  public noData = false;
 
   constructor() { }
 
@@ -59,6 +60,7 @@ export class CoursesComponent implements OnInit {
 
   public loadMore() {
     console.log('Loadimg more...');
+    this.noData = true;
   }
 
 }

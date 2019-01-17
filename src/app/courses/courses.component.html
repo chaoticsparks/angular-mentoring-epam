@@ -17,7 +17,8 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-auto">
-      <button type="button" class="btn btn-secondary btn-lg" (click)="loadMore()">Load more</button>
+      <button *ngIf="!noData" type="button" class="btn btn-secondary btn-lg" (click)="loadMore()">Load more</button>
+      <p *ngIf="noData">No courses. Feel free to add new course!</p>
     </div>
   </div>
 </div>
