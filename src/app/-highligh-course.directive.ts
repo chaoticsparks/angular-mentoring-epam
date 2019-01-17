@@ -8,12 +8,10 @@ export class HighlighCourseDirective implements OnInit {
   constructor(private el: ElementRef) {
   }
 
-  @Input('appHighlighCourse') creationDate!: string;
+  @Input('appHighlighCourse') creationDate!: Date;
 
   ngOnInit(): void {
-
-    const dateArr = this.creationDate.split('.');
-    const creationDate = new Date(+dateArr[2], +dateArr[1] - 1, +dateArr[0]);
+    const creationDate = this.creationDate;
     const currentDate = new Date();
     const currentDateSubstracted = new Date();
     currentDateSubstracted.setDate(currentDateSubstracted.getDate() - 14);

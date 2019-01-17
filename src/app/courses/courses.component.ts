@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Course } from '../course';
 import { ICourse } from '../icourse';
 
@@ -15,45 +15,49 @@ export class CoursesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.courses = [
+    this.courses = this.fetchCourses();
+  }
+
+  private fetchCourses(): ICourse[] {
+     return [
       new Course(
         0,
         'First course',
-        '07.12.2018',
+        new Date(2018, 12 - 1, 7),
         'Description 1',
-        '5 hours',
+        12,
         true,
       ),
       new Course(
         1,
         'Second course',
-        '19.02.2019',
+        new Date(2019, 2 - 1, 19),
         'Description 2',
-        '1 hours',
+        42,
         true,
       ),
       new Course(
         2,
         'Third course',
-        '17.01.2019',
+        new Date(2019, 1 - 1, 17),
         'Description 3',
-        '2 hours',
+        320,
         false,
       ),
       new Course(
         3,
         'Fourth course',
-        '10.12.2018',
+        new Date(2018, 12 - 1, 10),
         'Description 4',
-        '1 hours',
+        122,
         false,
       ),
       new Course(
         4,
         'Fifth course',
-        '11.12.2018',
+        new Date(2018, 12 - 1, 11),
         'Description 5',
-        '30 minutes',
+        160,
         false
       ),
     ];
@@ -66,6 +70,16 @@ export class CoursesComponent implements OnInit {
   public loadMore() {
     console.log('Loadimg more...');
     this.noData = true;
+  }
+
+  public search(searchQuery: string): void {
+    if (searchQuery) {
+      this.courses = this.fetchCourses().filter((course: ICourse) => {
+        return course.title.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    } else {
+      this.courses = this.fetchCourses();
+    }
   }
 
 }

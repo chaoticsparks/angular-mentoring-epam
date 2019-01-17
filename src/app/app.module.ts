@@ -14,6 +14,8 @@ import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { FormsModule } from '@angular/forms';
 import { HighlighCourseDirective } from './-highligh-course.directive';
+import { FormatDurationPipe } from './format-duration.pipe';
+import { OrderByPipe } from './order-by.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { HighlighCourseDirective } from './-highligh-course.directive';
     CourseComponent,
     FooterComponent,
     SearchComponent,
-    HighlighCourseDirective
+    HighlighCourseDirective,
+    FormatDurationPipe,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,

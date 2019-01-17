@@ -1,7 +1,7 @@
 <nav class="container mt-4">
   <div class="row justify-content-between">
     <div class="col-auto">
-      <app-search></app-search>
+      <app-search (search)="search($event)"></app-search>
     </div>
     <div class="col-auto">
       <button type="button" class="btn btn-primary">Add course</button>
@@ -10,7 +10,7 @@
 </nav>
 <main class="container">
   <div class="row">
-    <app-course *ngFor="let course of courses" [courseObject]="course" (delete)="deleteCourse($event)"
+    <app-course *ngFor="let course of courses | orderBy:'creationDate'" [courseObject]="course" (delete)="deleteCourse($event)"
                 class="col-6 my-3"></app-course>
   </div>
 </main>
