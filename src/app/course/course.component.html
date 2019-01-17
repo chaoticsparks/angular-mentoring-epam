@@ -1,6 +1,6 @@
 <div class="card" [appHighlighCourse]="courseObject?.creationDate">
   <div class="card-body">
-    <h5 class="card-title">{{courseObject?.title}}</h5>
+    <h5 class="card-title">{{courseObject?.title}} <i *ngIf="courseObject?.topRated" class="fas fa-star" ngClass="bg-orange"></i></h5>
     <div class="card-subtitle mb-2 text-muted">{{courseObject?.duration}}</div>
     <p class="card-text">{{courseObject?.description}}</p>
     <button class="btn btn-success btn-sm">Edit</button>

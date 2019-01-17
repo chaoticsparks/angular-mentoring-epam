@@ -4,3 +4,13 @@
 .text-white .card-subtitle, .text-white .card-footer small {
   color: $white !important;
 }
+
+.fa-star {
+  border-radius: 50%;
+  padding: 3px;
+  color: orange;
+}
+
+.bg-orange {
+  background-color: yellow;
+}

@@ -21,35 +21,40 @@ export class CoursesComponent implements OnInit {
         'First course',
         '07.12.2018',
         'Description 1',
-        '5 hours'
+        '5 hours',
+        true,
       ),
       new Course(
         1,
         'Second course',
         '19.02.2019',
         'Description 2',
-        '1 hours'
+        '1 hours',
+        true,
       ),
       new Course(
         2,
         'Third course',
         '17.01.2019',
         'Description 3',
-        '2 hours'
+        '2 hours',
+        false,
       ),
       new Course(
         3,
         'Fourth course',
         '10.12.2018',
         'Description 4',
-        '1 hours'
+        '1 hours',
+        false,
       ),
       new Course(
         4,
         'Fifth course',
         '11.12.2018',
         'Description 5',
-        '30 minutes'
+        '30 minutes',
+        false
       ),
     ];
   }
