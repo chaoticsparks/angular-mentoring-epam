@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { HighlighCourseDirective } from './-highligh-course.directive';
 import { FormatDurationPipe } from './format-duration.pipe';
 import { OrderByPipe } from './order-by.pipe';
+import {ModalModule} from 'ngx-bootstrap';
+import {AuthModule} from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { OrderByPipe } from './order-by.pipe';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule.forRoot(),
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

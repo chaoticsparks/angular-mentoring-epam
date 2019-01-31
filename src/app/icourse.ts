@@ -1,9 +1,5 @@
-export interface ICourse {
+import {ICourseService} from './icourse-service';
+
+export interface ICourse extends ICourseService {
   id: number;
-  title: string;
-  creationDate: Date;
-  duration: number;
-  description: string;
-  topRated: boolean;
-  [key: string]: any;
 }
