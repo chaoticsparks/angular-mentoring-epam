@@ -18,6 +18,8 @@ import { FormatDurationPipe } from './format-duration.pipe';
 import { OrderByPipe } from './order-by.pipe';
 import {ModalModule} from 'ngx-bootstrap';
 import {AuthModule} from './auth/auth.module';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { InputDurationComponent } from './input-duration/input-duration.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import {AuthModule} from './auth/auth.module';
     SearchComponent,
     HighlighCourseDirective,
     FormatDurationPipe,
-    OrderByPipe
+    OrderByPipe,
+    AddCourseComponent,
+    InputDurationComponent
   ],
   imports: [
     BrowserModule,
