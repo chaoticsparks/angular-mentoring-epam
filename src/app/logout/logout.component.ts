@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 
 @Component({
@@ -6,20 +6,16 @@ import {AuthService} from '../auth/auth.service';
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.scss']
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent {
 
-  public isAuthenticated?: boolean;
+  @Input() isAuthenticated?: boolean;
+  @Output() logout = new EventEmitter<boolean>();
 
-  constructor(private authService: AuthService) {
+  constructor() {
   }
 
-  ngOnInit() {
-    this.isAuthenticated = this.authService.isAuthenticated;
-  }
-
-  public logout() {
-    this.authService.logout();
-    console.log('Logout action');
+  public toLogout() {
+    this.logout.emit(true);
   }
 
 }

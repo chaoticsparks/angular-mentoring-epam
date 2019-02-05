@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CoursesComponent } from './courses/courses.component';
-import {LoginFormComponent} from './auth/login-form/login-form.component';
+import {LoginPageComponent} from './auth/login-page/login-page.component';
 import {AddCourseComponent} from './add-course/add-course.component';
 
 const routes: Routes = [
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginFormComponent
+    component: LoginPageComponent
   },
   { path: '',
     redirectTo: '/courses',

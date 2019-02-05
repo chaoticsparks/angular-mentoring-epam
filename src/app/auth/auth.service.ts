@@ -1,4 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
+import {Ilogin} from './ilogin';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class AuthService {
     this.isAuthenticated = Boolean(localStorage.getItem('user'));
   }
 
-  public login(userInfo: {user: string, password: string}) {
-    localStorage.setItem('user', userInfo.user );
-    localStorage.setItem('token', btoa(userInfo.user + userInfo.password));
+  public login(userInfo: Ilogin) {
+    localStorage.setItem('user', userInfo.username );
+    localStorage.setItem('token', btoa(userInfo.username + userInfo.password));
     this.isAuthenticated = true;
   }
 

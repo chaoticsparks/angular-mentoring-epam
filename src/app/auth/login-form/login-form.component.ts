@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from '../auth.service';
+import {ILocation} from 'selenium-webdriver';
+import {Ilogin} from '../ilogin';
 
 @Component({
   selector: 'app-login-form',
@@ -11,17 +13,18 @@ export class LoginFormComponent implements OnInit {
   public username!: string;
   public password!: string;
 
-  constructor(private authService: AuthService) { }
+  @Output() login = new EventEmitter<Ilogin>();
+
+  constructor() { }
 
   ngOnInit() {
   }
 
-  public login() {
-    this.authService.login({
-      user: this.username,
-      password: this.password
+  public toLogin() {
+    this.login.emit({
+        username: this.username,
+        password: this.password
     });
-    console.log('Login action');
   }
 
 }
