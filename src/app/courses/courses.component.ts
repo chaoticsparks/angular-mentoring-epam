@@ -2,6 +2,7 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import { ICourse } from '../icourse';
 import {CoursesService} from '../courses.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -17,7 +18,8 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private coursesService: CoursesService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private router: Router) { }
 
   ngOnInit() {
     this.courses = this.fetchCourses();
@@ -51,6 +53,10 @@ export class CoursesComponent implements OnInit {
   public openModal(template: TemplateRef<any>, id: number) {
     this.modalRef = this.modalService.show(template);
     this.courseToDelete = id;
+  }
+
+  public editCourse(id: number) {
+    this.router.navigate(['courses', id]);
   }
 
 }

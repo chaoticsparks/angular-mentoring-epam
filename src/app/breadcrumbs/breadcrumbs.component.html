@@ -1,7 +1,10 @@
 <section class="container mt-2">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page">Courses</li>
+      <li class="breadcrumb-item" routerLink="/" routerLinkActive="active" aria-current="page">Courses</li>
+      <li *ngIf="isCoursePage" class="breadcrumb-item" aria-current="page">
+        {{courseObject.title}}
+      </li>
     </ol>
   </nav>
 </section>

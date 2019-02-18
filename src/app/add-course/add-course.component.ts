@@ -1,4 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ICourse} from '../icourse';
 
 @Component({
   selector: 'app-add-course',
@@ -8,6 +9,10 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 })
 export class AddCourseComponent implements OnInit {
 
+  @Input() courseObject!: ICourse;
+  @Output() save = new EventEmitter<ICourse>();
+  @Output() decline = new EventEmitter<boolean>();
+
   constructor() { }
 
   ngOnInit() {
@@ -15,9 +20,11 @@ export class AddCourseComponent implements OnInit {
 
   public submit() {
     console.log('Form submitted');
+    this.save.emit(this.courseObject);
   }
 
   public cancel() {
     console.log('Form canceled');
+    this.decline.emit(true);
   }
 }

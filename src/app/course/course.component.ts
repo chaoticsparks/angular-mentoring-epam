@@ -11,6 +11,7 @@ export class CourseComponent implements OnInit, OnChanges {
 
   @Input() courseObject!: ICourse;
   @Output() delete = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<number>();
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('OnChanges', changes);
@@ -22,6 +23,10 @@ export class CourseComponent implements OnInit, OnChanges {
 
   public deleteCourse(id: number) {
     this.delete.emit(id);
+  }
+
+  public editCourse(id: number) {
+    this.edit.emit(id);
   }
 
 }

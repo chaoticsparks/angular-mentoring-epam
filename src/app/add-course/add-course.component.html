@@ -4,17 +4,19 @@
       <form>
         <div class="form-group">
           <label for="courseTitle">Title</label>
-          <input type="text" class="form-control" id="courseTitle" placeholder="Title of your course">
+          <input type="text" class="form-control" id="courseTitle" placeholder="Title of your course"
+                 [(ngModel)]="courseObject.title" [ngModelOptions]="{standalone: true}">
         </div>
         <div class="form-group">
           <label for="courseDesc">Course description</label>
-          <textarea class="form-control" id="courseDesc" rows="3"></textarea>
+          <textarea class="form-control" id="courseDesc" rows="3" [(ngModel)]="courseObject.description"
+                    [ngModelOptions]="{standalone: true}"></textarea>
         </div>
         <div class="form-group">
           <label for="courseDate">Date</label>
           <input type="text" class="form-control" id="courseDate" placeholder="Date of your course">
         </div>
-        <app-input-duration></app-input-duration>
+        <app-input-duration [duration]="courseObject.duration"></app-input-duration>
         <button type="submit" class="btn btn-success mr-2" (click)="submit()">Submit</button>
         <button type="submit" class="btn btn-danger" (click)="cancel()">Cancel</button>
       </form>

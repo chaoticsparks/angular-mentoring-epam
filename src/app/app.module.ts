@@ -20,6 +20,8 @@ import {ModalModule} from 'ngx-bootstrap';
 import {AuthModule} from './auth/auth.module';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { InputDurationComponent } from './input-duration/input-duration.component';
+import { AddCoursePageComponent } from './add-course-page/add-course-page.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { InputDurationComponent } from './input-duration/input-duration.componen
     FormatDurationPipe,
     OrderByPipe,
     AddCourseComponent,
-    InputDurationComponent
+    InputDurationComponent,
+    AddCoursePageComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

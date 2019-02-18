@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Ilogin} from '../ilogin';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -9,7 +10,9 @@ import {Ilogin} from '../ilogin';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
   }
@@ -20,6 +23,7 @@ export class LoginPageComponent implements OnInit {
       password: event.password
     });
     console.log('Login action');
+    this.router.navigate(['/']);
   }
 
 }
