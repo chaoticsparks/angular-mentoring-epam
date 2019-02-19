@@ -2,8 +2,7 @@
   <nav class="navbar navbar-light bg-light">
     <app-logo></app-logo>
     <form class="form-inline">
-      <app-login [userinfo]="getUserInfo()"></app-login>
-      <app-logout [isAuthenticated]="isAuthenticated()" (logout)="logout()"></app-logout>
+      <app-auth-panel  [userinfo]="getUserInfo()" [isAuthenticated]="isAuthenticated()" (logout)="logout()"></app-auth-panel>
     </form>
   </nav>
 </header>

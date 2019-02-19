@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Course} from './course';
 import {ICourse} from './icourse';
 import {ICourseService} from './icourse-service';
+import {Course} from './course';
 
 @Injectable({
   providedIn: 'root'

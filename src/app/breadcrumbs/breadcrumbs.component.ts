@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ICourse} from '../icourse';
-import {CoursesService} from '../courses.service';
+import {ICourse} from '../courses/icourse';
+import {CoursesService} from '../courses/courses.service';
 import {NavigationEnd, Router, UrlSegment} from '@angular/router';
 import {filter} from 'rxjs/operators';
 

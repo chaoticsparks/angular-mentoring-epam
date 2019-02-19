@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  selector: 'app-courses-search',
+  templateUrl: './courses-search.component.html',
+  styleUrls: ['./courses-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit {
+export class CoursesSearchComponent implements OnInit {
 
   public searchQuery = '';
 

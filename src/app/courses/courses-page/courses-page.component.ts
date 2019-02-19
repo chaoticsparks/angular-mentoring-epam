@@ -5,11 +5,11 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  selector: 'app-courses-page',
+  templateUrl: './courses-page.component.html',
+  styleUrls: ['./courses-page.component.scss']
 })
-export class CoursesComponent implements OnInit {
+export class CoursesPageComponent implements OnInit {
 
   public courses!: ICourse[];
   public noData = false;
