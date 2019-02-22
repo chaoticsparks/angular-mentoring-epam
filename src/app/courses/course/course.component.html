@@ -1,13 +1,16 @@
-<div class="card" [appHighlighCourse]="courseObject?.creationDate">
-  <div class="card-body">
-    <h5 class="card-title">{{courseObject?.title | uppercase}} <i *ngIf="courseObject?.topRated" class="fas fa-star" ngClass="bg-orange"></i></h5>
-    <div class="card-subtitle mb-2 text-muted">{{courseObject?.duration | formatDuration}}</div>
-    <p class="card-text">{{courseObject?.description}}</p>
-    <button class="btn btn-success btn-sm" (click)="editCourse(courseObject?.id)">Edit</button>
-    <button class="btn btn-danger btn-sm ml-2" (click)="deleteCourse(courseObject?.id)">Delete</button>
-  </div>
-  <div class="card-footer">
-    <small class="text-muted">Created: {{courseObject?.creationDate | date:'dd.MM.yyyy'}}</small>
+<div>
+  <div class="card" [appHighlighCourse]="courseObject?.creationDate">
+    <div class="card-body">
+      <h5 class="card-title">{{courseObject?.name | uppercase}} <i *ngIf="courseObject?.isTopRated" class="fas fa-star" ngClass="bg-orange"></i></h5>
+      <div class="card-subtitle mb-2 text-muted">{{courseObject?.length | formatDuration}}</div>
+      <p class="card-text">{{courseObject?.description}}</p>
+      <button class="btn btn-success btn-sm" (click)="editCourse(courseObject?.id)">Edit</button>
+      <button class="btn btn-danger btn-sm ml-2" (click)="deleteCourse(courseObject?.id)">Delete</button>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Created: {{courseObject?.date | date:'dd.MM.yyyy'}}</small>
+    </div>
   </div>
 </div>
+
 

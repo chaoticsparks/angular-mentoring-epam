@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {ICourse} from './icourse';
+import {ICourseFetched} from './ICourseFetched';
 
 @Pipe({
   name: 'orderBy'
@@ -7,9 +7,14 @@ import {ICourse} from './icourse';
 export class OrderByPipe implements PipeTransform {
 
   transform(collection: any[], criteria: string, args?: any): any {
-    return collection.sort((a: ICourse, b: ICourse) => {
-      return  b[criteria] - a[criteria];
-    });
+    if (collection !== undefined && criteria === 'date') {
+      return collection.sort((a: ICourseFetched, b: ICourseFetched) => {
+        return  Date.parse(b[criteria]) - Date.parse(a[criteria]);
+      });
+    } else {
+      return collection;
+    }
+
   }
 
 }

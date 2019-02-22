@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Ilogin} from '../ilogin';
 import {Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login-page',
@@ -10,20 +11,31 @@ import {Router} from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
 
+  public logingError = '';
+
   constructor(
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router) {
+  }
 
   ngOnInit() {
   }
 
   public login(event: Ilogin) {
     this.authService.login({
-      username: event.username,
+      login: event.login,
       password: event.password
-    });
-    console.log('Login action');
-    this.router.navigate(['/']);
+    })
+      .subscribe(
+        (r: any) => {
+          console.log('Login action');
+          this.router.navigate(['/']);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.logingError = error.error;
+          }
+        });
   }
 
 }

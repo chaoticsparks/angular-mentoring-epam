@@ -1,8 +1,9 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import { ICourse } from '../icourse';
+import {ICourseFetched} from '../ICourseFetched';
 import {CoursesService} from '../courses.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {Router} from '@angular/router';
+import {backendConfig} from '../../../config.enum';
 
 @Component({
   selector: 'app-courses-page',
@@ -11,43 +12,57 @@ import {Router} from '@angular/router';
 })
 export class CoursesPageComponent implements OnInit {
 
-  public courses!: ICourse[];
+  public courses!: ICourseFetched[];
   public noData = false;
   public modalRef!: BsModalRef;
   private courseToDelete!: number;
+  private startingPage = 0;
 
   constructor(
     private coursesService: CoursesService,
     private modalService: BsModalService,
-    private router: Router) { }
-
-  ngOnInit() {
-    this.courses = this.fetchCourses();
+    private router: Router) {
   }
 
-  private fetchCourses(): ICourse[] {
-     return this.coursesService.getList();
+  ngOnInit() {
+    this.coursesService.getList().subscribe((courses: ICourseFetched[]) => {
+      this.courses = courses;
+    });
   }
 
   public loadMore() {
-    console.log('Loadimg more...');
-    this.noData = true;
+    this.coursesService.getList(++this.startingPage * backendConfig.CoursesOnPage)
+      .subscribe((courses: ICourseFetched[]) => {
+        this.courses = [ ...this.courses, ...courses];
+        if (courses.length === 0) {
+          console.log(courses);
+          this.noData = true;
+        }
+      });
   }
 
   public search(searchQuery: string): void {
     if (searchQuery) {
-      this.courses = this.fetchCourses().filter((course: ICourse) => {
-        return course.title.toLowerCase().includes(searchQuery.toLowerCase());
-      });
+      this.coursesService.findCourse(searchQuery)
+        .subscribe((courses: ICourseFetched[]) => {
+          this.courses = courses;
+        });
     } else {
-      this.courses = this.fetchCourses();
+      this.coursesService.getList()
+        .subscribe((courses: ICourseFetched[]) => {
+          this.courses = courses;
+        });
     }
   }
 
   public deleteCourse() {
-    this.coursesService.removeCourse(this.courseToDelete);
-    this.modalRef.hide();
-    this.courses = this.fetchCourses();
+    this.coursesService.removeCourse(this.courseToDelete).subscribe(() => {
+      this.modalRef.hide();
+      this.coursesService.getList()
+        .subscribe((courses: ICourseFetched[]) => {
+          this.courses = courses;
+        });
+    });
   }
 
   public openModal(template: TemplateRef<any>, id: number) {

@@ -1,12 +1,11 @@
-import { ICourse } from './icourse';
+import {ICourse} from './i-course';
 
 export class Course implements ICourse {
   constructor(
-    public id: number,
-    public title: string,
-    public creationDate: Date,
+    public name: string,
+    public date: string,
     public description: string,
-    public duration: number,
-    public topRated: boolean
+    public length: number,
+    public isTopRated: boolean
   ) {}
 }

@@ -1,7 +1,6 @@
-import { IUser } from './iuser';
+import {IUser} from './i-user';
 
 export class User implements IUser {
   firstName!: string;
-  id!: number;
   lastName!: string;
 }

@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
-import {ICourse} from './icourse';
-import {ICourseService} from './icourse-service';
+import {Injectable} from '@angular/core';
+import {ICourseFetched} from './ICourseFetched';
+import {ICourse} from './i-course';
 import {Course} from './course';
+import {HttpClient} from '@angular/common/http';
+import {backendConfig} from '../../config.enum';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,84 +13,30 @@ export class CoursesService {
 
   static id = 5;
 
-  private courses = [
-    new Course(
-      0,
-      'First course',
-      new Date(2018, 12 - 1, 7),
-      'Description 1',
-      12,
-      true,
-    ),
-    new Course(
-      1,
-      'Second course',
-      new Date(2019, 2 - 1, 19),
-      'Description 2',
-      42,
-      true,
-    ),
-    new Course(
-      2,
-      'Third course',
-      new Date(2019, 1 - 1, 17),
-      'Description 3',
-      320,
-      false,
-    ),
-    new Course(
-      3,
-      'Fourth course',
-      new Date(2018, 12 - 1, 10),
-      'Description 4',
-      122,
-      false,
-    ),
-    new Course(
-      4,
-      'Fifth course',
-      new Date(2018, 12 - 1, 11),
-      'Description 5',
-      160,
-      false
-    ),
-  ];
-
-  constructor() { }
-
-  private findCourseById(id: number): ICourse | undefined {
-    return this.courses.find((course) => course.id === id);
+  constructor(private http: HttpClient) {
   }
 
-  public getList(): ICourse[] {
-    return this.courses;
+  public getList(startFrom: number = 0): Observable<ICourseFetched[]> {
+    return this.http.get<ICourseFetched[]>(backendConfig.apiUrl + 'courses?start=' + startFrom + '&count=' + backendConfig.CoursesOnPage);
   }
 
-  public createCourse(course: ICourseService) {
-    this.courses.push({
-      id: CoursesService.id++,
-      ...course
-    });
+  public createCourse(course: ICourse): Observable<any> {
+    return this.http.post(backendConfig.apiUrl + 'courses/', course);
   }
 
-  public getCourseById(id: number): ICourse | undefined {
-    return this.findCourseById(id);
+  public getCourseById(id: number): Observable<ICourseFetched> {
+    return this.http.get<ICourseFetched>(backendConfig.apiUrl + 'courses/' + id);
   }
 
-  public updateItem(id: number, newcourse: ICourse): boolean {
-    const courseToUpdate = this.findCourseById(id);
-    if (courseToUpdate) {
-      this.courses[this.courses.indexOf(courseToUpdate)] = {
-        ...courseToUpdate,
-        ...newcourse
-      };
-      return true;
-    } else {
-      throw Error('Course to update not founded!');
-    }
+  public updateItem(id: number, newcourse: ICourseFetched): Observable<any> {
+    return this.http.put(backendConfig.apiUrl + 'courses/' + id, newcourse);
   }
 
-  public removeCourse(id: number) {
-    this.courses = this.courses.filter((course) => course.id !== id);
+  public findCourse(query: string): Observable<ICourseFetched[]> {
+    return this.http.get<ICourseFetched[]>(backendConfig.apiUrl + 'courses?textFragment=' + query);
+  }
+
+  public removeCourse(id: number): Observable<any> {
+    return this.http.delete(backendConfig.apiUrl + 'courses/' + id);
   }
 }

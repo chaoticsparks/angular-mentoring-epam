@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {AuthGuard} from '../auth/auth.guard';
 import {CoursesPageComponent} from './courses-page/courses-page.component';
 import {AddCoursePageComponent} from './add-course-page/add-course-page.component';
+import {EditCoursePageComponent} from './edit-course-page/edit-course-page.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: ':id',
-        component: AddCoursePageComponent
+        component: EditCoursePageComponent
       }
     ]
   }

@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ICourse} from '../icourse';
+import {ICourseFetched} from '../ICourseFetched';
 
 @Component({
-  selector: 'app-add-course',
-  templateUrl: './add-course.component.html',
-  styleUrls: ['./add-course.component.scss'],
+  selector: 'app-course-form',
+  templateUrl: './course-form.component.html',
+  styleUrls: ['./course-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddCourseComponent implements OnInit {
+export class CourseFormComponent implements OnInit {
 
-  @Input() courseObject!: ICourse;
-  @Output() save = new EventEmitter<ICourse>();
+  @Input() courseObject!: ICourseFetched;
+  @Output() save = new EventEmitter<ICourseFetched>();
   @Output() decline = new EventEmitter<boolean>();
 
   constructor() { }

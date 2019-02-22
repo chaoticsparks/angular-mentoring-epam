@@ -24,7 +24,7 @@ describe('CoursesPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize courses property', () => {
-    expect(component.courses).toBeDefined();
+  it('should initialize courses$ property', () => {
+    expect(component.courses$).toBeDefined();
   });
 });

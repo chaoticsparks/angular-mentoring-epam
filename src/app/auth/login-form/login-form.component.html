@@ -12,6 +12,9 @@
             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="password">
           </div>
           <button type="submit" class="btn btn-primary" (click)="toLogin()">Login</button>
+          <div class="alert alert-danger mt-2" role="alert" *ngIf="error">
+            {{error}}
+          </div>
         </div>
       </div>
     </div>

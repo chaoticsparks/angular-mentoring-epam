@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ICourse} from '../icourse';
+import {ICourseFetched} from '../ICourseFetched';
 
 @Component({
   selector: 'app-course',
@@ -9,7 +9,7 @@ import {ICourse} from '../icourse';
 })
 export class CourseComponent implements OnInit, OnChanges {
 
-  @Input() courseObject!: ICourse;
+  @Input() courseObject!: ICourseFetched;
   @Output() delete = new EventEmitter<number>();
   @Output() edit = new EventEmitter<number>();
 
