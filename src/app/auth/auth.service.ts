@@ -21,6 +21,7 @@ export class AuthService {
       this.isAuthenticated = true;
       this.token = token;
     }
+    this.fetchUserInfo();
   }
 
   public login(userInfo: Ilogin): Observable<any> {
