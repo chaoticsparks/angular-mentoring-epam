@@ -2,25 +2,27 @@ import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {Router} from '@angular/router';
 import {IUserFetched} from '../IUserFetched';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+
+  public username = 'Guest';
 
   constructor(private authService: AuthService,
               private router: Router) {
   }
 
-  private getUserName() {
-    const userInfo = this.authService.getUserInfo();
-    if (userInfo) {
-      return userInfo.name.first;
-    } else {
-      return null;
-    }
+  ngOnInit(): void {
+    this.authService.userInfo$
+      .subscribe((userInfo: IUserFetched | null) => {
+        console.log(userInfo);
+        this.username = userInfo ? userInfo.name.first : 'Guest';
+      });
   }
 
   public isAuthenticated() {

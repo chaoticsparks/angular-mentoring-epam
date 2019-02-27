@@ -11,6 +11,9 @@ import {ModalModule} from 'ngx-bootstrap';
 import {AuthModule} from './auth/auth.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {CoursesModule} from './courses/courses.module';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {LoadingInterceptor} from './loading-interceptor';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,8 @@ import {CoursesModule} from './courses/courses.module';
     LogoComponent,
     BreadcrumbsComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +31,9 @@ import {CoursesModule} from './courses/courses.module';
     CoursesModule,
     AppRoutingModule,
     ModalModule.forRoot(),
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Ilogin} from './ilogin';
 import {HttpClient} from '@angular/common/http';
 import {backendConfig} from '../../config.enum';
-import { tap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
+import {Observable, Observer, of, Subject} from 'rxjs';
 import {IUserFetched} from '../IUserFetched';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class AuthService {
 
   public isAuthenticated = false;
   public token = '';
-  private userInfo: IUserFetched | null = null;
+  public userInfo$ = new Subject<IUserFetched | null>();
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('token');
@@ -30,10 +30,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           this.token = response.token;
           this.isAuthenticated = true;
-          this.http.get<IUserFetched[]>(backendConfig.apiUrl + 'users?fakeToken=' + this.token)
-            .subscribe((user: IUserFetched[]) => {
-              this.userInfo = user[0];
-          });
+          this.fetchUserInfo();
         })
       );
   }
@@ -42,10 +39,17 @@ export class AuthService {
     localStorage.clear();
     this.isAuthenticated = false;
     this.token = '';
-    this.userInfo = null;
+    this.fetchUserInfo();
   }
 
-  public getUserInfo(): IUserFetched | null {
-    return this.userInfo;
+  private fetchUserInfo() {
+    if (this.isAuthenticated) {
+      this.http.get<IUserFetched[]>(backendConfig.apiUrl + 'users?fakeToken=' + this.token)
+        .subscribe((user: IUserFetched[]) => {
+          this.userInfo$.next(user[0]);
+        });
+    } else {
+      this.userInfo$.next(null);
+    }
   }
 }
