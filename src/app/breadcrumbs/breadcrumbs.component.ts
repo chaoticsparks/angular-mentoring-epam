@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ICourseFetched} from '../courses/ICourseFetched';
 import {CoursesService} from '../courses/courses.service';
-import {NavigationEnd, Router, UrlSegment} from '@angular/router';
-import {filter, mergeMap} from 'rxjs/operators';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -11,7 +11,7 @@ import {filter, mergeMap} from 'rxjs/operators';
 })
 export class BreadcrumbsComponent implements OnInit {
 
-  public courseObject?: ICourseFetched;
+  public courseName!: string;
   public isCoursePage = false;
 
   constructor(private courses: CoursesService,
@@ -27,7 +27,10 @@ export class BreadcrumbsComponent implements OnInit {
 
       if (courseId) {
         this.isCoursePage = true;
-        // this.courseObject = this.courses.getCourseById(courseId);
+        this.courses.getCourseById(courseId)
+          .subscribe((course: ICourseFetched) => {
+            this.courseName = course.name;
+          });
       } else {
         this.isCoursePage = false;
       }
