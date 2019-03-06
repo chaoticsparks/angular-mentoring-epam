@@ -1,8 +1,9 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {Router} from '@angular/router';
+import {Observable, of} from 'rxjs';
+import {filter, map, mergeMap, tap} from 'rxjs/operators';
 import {IUserFetched} from '../IUserFetched';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -11,22 +12,32 @@ import {Observable} from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  public username = 'Guest';
+  public username = '';
+  public isAuthenticated!: boolean;
 
   constructor(private authService: AuthService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.authService.userInfo$
-      .subscribe((userInfo: IUserFetched | null) => {
-        console.log(userInfo);
-        this.username = userInfo ? userInfo.name.first : 'Guest';
+    this.authService.isAuthenticated$
+      .pipe(
+        tap((isAuthenticated) => {
+          this.isAuthenticated = isAuthenticated;
+        }),
+        mergeMap((isAuthenticated: boolean) => {
+          if (isAuthenticated) {
+            return this.authService.fetchUserInfo()
+              .pipe(
+                map((user: IUserFetched) => user.name.first)
+              );
+          } else {
+            return of('Guest');
+          }
+        }))
+      .subscribe((username: string) => {
+        this.username = username;
       });
-  }
-
-  public isAuthenticated() {
-    return this.authService.isAuthenticated;
   }
 
   public logout() {

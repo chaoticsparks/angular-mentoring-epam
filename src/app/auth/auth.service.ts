@@ -3,7 +3,7 @@ import {Ilogin} from './ilogin';
 import {HttpClient} from '@angular/common/http';
 import {backendConfig} from '../../config.enum';
 import {map, tap} from 'rxjs/operators';
-import {Observable, Observer, of, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Observer, of, Subject} from 'rxjs';
 import {IUserFetched} from '../IUserFetched';
 
 @Injectable({
@@ -11,17 +11,15 @@ import {IUserFetched} from '../IUserFetched';
 })
 export class AuthService {
 
-  public isAuthenticated = false;
+  public isAuthenticated$ = new BehaviorSubject<boolean>(false);
   public token = '';
-  public userInfo$ = new Subject<IUserFetched | null>();
 
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('token');
     if (token) {
-      this.isAuthenticated = true;
+      this.isAuthenticated$.next(true);
       this.token = token;
     }
-    this.fetchUserInfo();
   }
 
   public login(userInfo: Ilogin): Observable<any> {
@@ -30,27 +28,21 @@ export class AuthService {
         tap((response: any) => {
           localStorage.setItem('token', response.token);
           this.token = response.token;
-          this.isAuthenticated = true;
-          this.fetchUserInfo();
+          this.isAuthenticated$.next(true);
         })
       );
   }
 
   public logout() {
     localStorage.clear();
-    this.isAuthenticated = false;
+    this.isAuthenticated$.next(false);
     this.token = '';
-    this.fetchUserInfo();
   }
 
-  private fetchUserInfo() {
-    if (this.isAuthenticated) {
-      this.http.get<IUserFetched[]>(backendConfig.apiUrl + 'users?fakeToken=' + this.token)
-        .subscribe((user: IUserFetched[]) => {
-          this.userInfo$.next(user[0]);
-        });
-    } else {
-      this.userInfo$.next(null);
-    }
+  public fetchUserInfo(): Observable<IUserFetched> {
+    return this.http.get<IUserFetched[]>(backendConfig.apiUrl + 'users?fakeToken=' + this.token)
+      .pipe(
+        map((user: IUserFetched[]) => user[0])
+      );
   }
 }
