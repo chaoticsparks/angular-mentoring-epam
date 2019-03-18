@@ -1,43 +1,32 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {filter, map, mergeMap, tap} from 'rxjs/operators';
 import {IUserFetched} from '../IUserFetched';
+import {select, Store} from '@ngrx/store';
+import {IAppState} from '../store/reducers';
+import {selectAuth, selectAuthisAuthenticated} from '../store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  public username = '';
-  public isAuthenticated!: boolean;
+  public username$ = this.authService.fetchUserInfo()
+    .pipe(
+      map((result) => {
+        return result ? result.name.first : 'Guest';
+      })
+    );
+
+  public isAuthenticated$ = this.store.pipe(select(selectAuthisAuthenticated));
 
   constructor(private authService: AuthService,
-              private router: Router) {
-  }
-
-  ngOnInit(): void {
-    this.authService.isAuthenticated$
-      .pipe(
-        tap((isAuthenticated) => {
-          this.isAuthenticated = isAuthenticated;
-        }),
-        mergeMap((isAuthenticated: boolean) => {
-          if (isAuthenticated) {
-            return this.authService.fetchUserInfo()
-              .pipe(
-                map((user: IUserFetched) => user.name.first)
-              );
-          } else {
-            return of('Guest');
-          }
-        }))
-      .subscribe((username: string) => {
-        this.username = username;
-      });
+              private router: Router,
+              private store: Store<IAppState>) {
   }
 
   public logout() {

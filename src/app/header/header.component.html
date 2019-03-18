@@ -2,7 +2,7 @@
   <nav class="navbar navbar-light bg-light">
     <app-logo></app-logo>
     <form class="form-inline">
-      <app-auth-panel  [username]="username" [isAuthenticated]="isAuthenticated" (logout)="logout()"></app-auth-panel>
+      <app-auth-panel  [username]="username$ | async" [isAuthenticated]="isAuthenticated$ | async" (logout)="logout()"></app-auth-panel>
     </form>
   </nav>
 </header>

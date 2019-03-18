@@ -14,6 +14,14 @@ import {CoursesModule} from './courses/courses.module';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {LoadingInterceptor} from './loading-interceptor';
 import { LoaderComponent } from './loader/loader.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers} from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import {CoursesPageEffects} from './store/effects/courses-page.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import {AuthEffects} from './store/effects/auth.effects';
+import {AddEditCourseEffects} from './store/effects/add-edit-course.effects';
 
 @NgModule({
   declarations: [
@@ -31,6 +39,9 @@ import { LoaderComponent } from './loader/loader.component';
     CoursesModule,
     AppRoutingModule,
     ModalModule.forRoot(),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([CoursesPageEffects, AuthEffects, AddEditCourseEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }

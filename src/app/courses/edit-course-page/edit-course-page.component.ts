@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ICourseFetched} from '../ICourseFetched';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {CoursesService} from '../courses.service';
-import {Observable, of} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {Observable, of, Subscription} from 'rxjs';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {select, Store} from '@ngrx/store';
+import {selectCourseToSumbit} from '../../store/selectors/add-edit-course.selectors';
+import {IAppState} from '../../store/reducers';
+import {FetchCourseToEdit} from '../../store/actions/add-edit-course.actions';
 
 @Component({
   selector: 'app-edit-course-page',
@@ -12,37 +16,30 @@ import {catchError, switchMap} from 'rxjs/operators';
 })
 export class EditCoursePageComponent implements OnInit {
 
-  public courseToEdit$!: Observable<ICourseFetched>;
+  public courseToEdit$ = this.store.pipe(select(selectCourseToSumbit));
 
   constructor(private router: Router,
               private courses: CoursesService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private store: Store<IAppState>) {
+  }
 
   ngOnInit() {
-    this.courseToEdit$ = this.route.paramMap
+    this.route.paramMap
       .pipe(
-        switchMap((params: ParamMap) => {
-          const courseId = Number(params.get('id'));
-          if (courseId) {
-            return this.courses.getCourseById(courseId);
-          } else {
-            throw new Error('Wrong course id parameter');
-          }
-        }),
-        catchError((err => {
-          this.router.navigate(['/']);
-          throw Error ('Course not fetched. Redirecting..');
-        }))
-      );
+        map((params: ParamMap) => Number(params.get('id')))
+      ).subscribe((id) => {
+      this.store.dispatch(new FetchCourseToEdit(id));
+    });
   }
 
   public save(course: ICourseFetched) {
-    this.courses.updateItem(course.id, course).subscribe((data) => {
+    this.courses.updateItem(course.id, course).subscribe((data) => { // TODO: Is that ok to not move it to effects?
       this.router.navigate(['/']);
     });
   }
 
-  public cancel(isCanceled: boolean) {
+  public cancel(isCanceled: boolean) { // TODO: Is that ok to not move it to effects?
     if (isCanceled) {
       this.router.navigate(['/']);
     }
