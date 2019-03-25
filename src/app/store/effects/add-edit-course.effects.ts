@@ -8,7 +8,6 @@ import {
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {CoursesService} from '../../courses/courses.service';
-import {of} from 'rxjs';
 import {ICourseFetched} from '../../courses/ICourseFetched';
 
 
@@ -25,16 +24,11 @@ export class AddEditCourseEffects {
       }
       return this.courses.getCourseById(action.payload);
     }),
-    /*
-      TODO: If open course edit page with wrong ID (e.g. "http://localhost:4200/courses/3946xxx") error is caught and redirecting works
-      but if after that open another course edit page with proper id - page is broken and action dispatched with proper id but this effect
-       does not work
-     */
     map((course: ICourseFetched) => new FetchCourseToEditSuccess(course)),
-    catchError((err => {
+    catchError(((err, stream) => {
       console.log('Course not fetched. Redirecting..', err);
       this.router.navigate(['/']);
-      return of(new FetchCourseToEditFailed());
+      return stream;
     }))
   );
 

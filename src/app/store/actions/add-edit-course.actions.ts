@@ -5,7 +5,6 @@ export enum AddEditCourseActionTypes {
   CreateNewCourse = '[AddEditCourse] Create empty course object to edit',
   FetchCourseToEdit = '[AddEditCourse] Fetch existed Course',
   FetchCourseToEditSuccess = '[AddEditCourse] Fetch existed Course success',
-  FetchCourseToEditFailed = '[AddEditCourse] Fetch existed Course failed',
 }
 
 export class CreateNewCourse implements Action {
@@ -21,10 +20,6 @@ export class FetchCourseToEdit implements Action {
 export class FetchCourseToEditSuccess implements Action {
   readonly type = AddEditCourseActionTypes.FetchCourseToEditSuccess;
   constructor(public payload: ICourse) {}
-}
-
-export class FetchCourseToEditFailed implements Action {
-  readonly type = AddEditCourseActionTypes.FetchCourseToEditFailed;
 }
 
 export type AddEditCourseActions = CreateNewCourse | FetchCourseToEdit | FetchCourseToEditSuccess;
