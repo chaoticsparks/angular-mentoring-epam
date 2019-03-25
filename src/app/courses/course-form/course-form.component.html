@@ -1,7 +1,7 @@
 <main class="container">
   <div class="row">
     <div class="col-6">
-      <form *ngIf="courseObject$ | async" [formGroup]="courseForm" (ngSubmit)="submit()">
+      <form *ngIf="courseObject$ | async" [formGroup]="courseForm" (ngSubmit)="submit()" autocomplete="off">
         <div class="form-group">
           <label for="courseTitle">Title</label>
           <input type="text" class="form-control" [class.is-invalid]="title.invalid && title.touched" id="courseTitle"
