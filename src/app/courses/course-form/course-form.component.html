@@ -1,24 +1,40 @@
 <main class="container">
   <div class="row">
     <div class="col-6">
-      <form *ngIf="courseObject">
+      <form *ngIf="courseObject$ | async" [formGroup]="courseForm" (ngSubmit)="submit()">
         <div class="form-group">
           <label for="courseTitle">Title</label>
-          <input type="text" class="form-control" id="courseTitle" placeholder="Title of your course"
-                 [(ngModel)]="courseObject.name" [ngModelOptions]="{standalone: true}">
+          <input type="text" class="form-control" [class.is-invalid]="title.invalid && title.touched" id="courseTitle"
+                 placeholder="Title of your course" formControlName="title" required>
+          <div class="invalid-feedback" *ngIf="title.errors?.required">
+            This field is required
+          </div>
+          <div class="invalid-feedback" *ngIf="title.errors?.maxlength">
+            50 symbols is maximum for that field
+          </div>
         </div>
         <div class="form-group">
           <label for="courseDesc">Course description</label>
-          <textarea class="form-control" id="courseDesc" rows="3" [(ngModel)]="courseObject.description"
-                    [ngModelOptions]="{standalone: true}"></textarea>
+          <textarea class="form-control" [class.is-invalid]="description.invalid && description.touched" id="courseDesc"
+                    rows="3" formControlName="description" required=""></textarea>
+          <div class="invalid-feedback" *ngIf="description.errors?.required">
+            This field is required
+          </div>
+          <div class="invalid-feedback" *ngIf="description.errors?.maxlength">
+            500 symbols is maximum for that field
+          </div>
         </div>
-        <!--<div class="form-group">
-          <label for="courseDate">Date</label>
-          <input type="text" class="form-control" id="courseDate" placeholder="Date of your course">
-        </div>-->
-        <app-input-duration [duration]="courseObject.length"></app-input-duration>
-        <button type="submit" class="btn btn-success mr-2" (click)="submit()">Submit</button>
-        <button type="submit" class="btn btn-danger" (click)="cancel()">Cancel</button>
+        <div class="form-group">
+          <app-input-date formControlName="date" [isInvalid]="date.invalid && date.touched" [errors]="date.errors"></app-input-date>
+        </div>
+        <div class="form-group">
+          <app-input-duration formControlName="duration" [isInvalid]="duration.invalid && duration.touched" [errors]="duration.errors"></app-input-duration>
+        </div>
+        <div class="form-group">
+          <app-input-authors formControlName="authors" [isInvalid]="authors.invalid && authors.touched" [errors]="authors.errors"></app-input-authors>
+        </div>
+        <button type="submit" class="btn btn-success mr-2" [disabled]="!courseForm.valid">Submit</button>
+        <button class="btn btn-danger" (click)="cancel()">Cancel</button>
       </form>
     </div>
   </div>

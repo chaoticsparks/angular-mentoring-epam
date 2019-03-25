@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Observable, Observer, Subject} from 'rxjs';
 import {debounce, debounceTime, filter} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-courses-search',
@@ -12,11 +13,12 @@ export class CoursesSearchComponent implements OnInit {
 
   constructor() { }
 
+  public inputSearch = new FormControl('');
+
   @Output() search = new EventEmitter<string>();
-  private search$ = new Subject<string>();
 
   ngOnInit(): void {
-    this.search$
+    this.inputSearch.valueChanges
       .pipe(
         filter((query: string) => query.length >= 3 || query.length === 0),
         debounceTime(500)
@@ -24,9 +26,5 @@ export class CoursesSearchComponent implements OnInit {
       .subscribe((searchQuery) => {
       this.search.emit(searchQuery);
     });
-  }
-
-  public toSearch(searchQuery: string) {
-    this.search$.next(searchQuery);
   }
 }

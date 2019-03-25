@@ -1,0 +1,27 @@
+<label for="courseAuthors">Authors</label>
+<div class="authors-box">
+  <input type="text" class="form-control" id="courseAuthors" placeholder="Start typing the author name.."
+          #authorsInput
+         [class.is-invalid]="isInvalid"
+         [disabled]="disabled"
+         (blur)="selectAuthorOnTouched()"
+         (keyup)="searchAuthors(authorsInput.value)">
+  <div class="invalid-feedback" *ngIf="errors?.required">
+    This field is required
+  </div>
+
+  <div class="invalid-feedback" *ngIf="errors?.noAuthors">
+    You should select at least 1 author from the list
+  </div>
+  <div class="selected-authors">
+    <div class="badge badge-primary mr-2" *ngFor="let selectedAuthor of selectedAuthors">{{ selectedAuthor.name }}
+      <i class="fas fa-times" (click)="removeAuthor(selectedAuthor.id)"></i></div>
+  </div>
+  <ul class="authors-list m-0 p-0" *ngIf="isAuthorlistShown">
+    <li class="form-control" *ngFor="let author of (authors$ | async)" (click)="selectAuthor(author)">{{author.name}}</li>
+  </ul>
+</div>
+
+
+
+

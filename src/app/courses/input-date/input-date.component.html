@@ -1,0 +1,18 @@
+<label for="courseDate">Date</label>
+<input type="text" class="form-control" id="courseDate" placeholder="Date of your course"
+       #inputDate
+       [class.is-invalid]=isInvalid
+       [value]="inputValue"
+       (keyup)="setInputOnChange(inputDate.value)"
+       (blur)="setInputOnTouched(inputDate.value)"
+       [disabled]="disabled">
+<div class="invalid-feedback" *ngIf="errors?.required">
+  This field is required
+</div>
+
+<div class="invalid-feedback" *ngIf="errors?.dateFormat">
+  Date format must be: dd/MM/yyyy
+</div>
+
+
+

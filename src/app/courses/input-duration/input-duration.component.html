@@ -1,7 +1,19 @@
-<div class="form-group">
-  <label for="courseDuration">Duration</label>
-  <input type="text" class="form-control" id="courseDuration" aria-describedby="courseDurationHelp" [(ngModel)]="duration" [ngModelOptions]="{standalone: true}">
-  <small id="courseDurationHelp" class="form-text text-muted">
-    {{ duration | formatDuration }}
-  </small>
+<label for="courseDuration">Duration</label>
+<input type="text" class="form-control" id="courseDuration" aria-describedby="courseDurationHelp"
+        #courseDurationInput
+       [class.is-invalid]="isInvalid"
+       [value]="inputValue"
+       (keyup)="setInputOnChange(courseDurationInput.value)"
+       (blur)="setInputOnTouched(courseDurationInput.value)"
+       [disabled]="disabled">
+<div class="invalid-feedback" *ngIf="errors?.required">
+  This field is required
 </div>
+
+<div class="invalid-feedback" *ngIf="errors?.nan">
+  Only numbers is allowed there
+</div>
+<small id="courseDurationHelp" class="form-text text-muted">
+  {{ inputValue | formatDuration }}
+</small>
+

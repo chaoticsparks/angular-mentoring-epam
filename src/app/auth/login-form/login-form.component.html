@@ -2,20 +2,32 @@
   <div class="row justify-content-center">
     <div class="col-auto">
       <div class="card">
-        <div class="card-body">
+        <form class="card-body" [formGroup]="loginForm" (ngSubmit)="toLogin()">
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Username" [(ngModel)]="username">
+            <input type="text" class="form-control" id="username" placeholder="Username"
+                   formControlName="login"
+                   [class.is-invalid]="loginInput.invalid && loginInput.touched"
+                   required="required">
+            <div class="invalid-feedback" *ngIf="loginInput.errors?.required">
+              This field is required
+            </div>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" [(ngModel)]="password">
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                   formControlName="password"
+                   [class.is-invalid]="password.invalid && password.touched"
+                   required="required">
+            <div class="invalid-feedback" *ngIf="password.errors?.required">
+              This field is required
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary" (click)="toLogin()">Login</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
           <div class="alert alert-danger mt-2" role="alert" *ngIf="error">
             {{error}}
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

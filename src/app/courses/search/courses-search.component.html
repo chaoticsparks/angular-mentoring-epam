@@ -1,7 +1,7 @@
 <form class="form-inline">
   <div class="form-group mb-2">
     <label for="search" class="sr-only">Search</label>
-    <input type="text" class="form-control" id="search" placeholder="Text to search.." #searchinput (keyup)="toSearch(searchinput.value)">
+    <input type="text" class="form-control" id="search" placeholder="Text to search.." [formControl]="inputSearch">
   </div>
   <!--<button type="submit" class="btn btn-secondary mb-2 ml-1" (click)="toSearch(searchinput.value)">Search</button>-->
 </form>

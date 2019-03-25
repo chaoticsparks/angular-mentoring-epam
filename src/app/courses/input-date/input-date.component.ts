@@ -1,34 +1,33 @@
-import {ChangeDetectionStrategy, Component, forwardRef, Input, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Component, forwardRef, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AbstractControl, ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidatorFn} from '@angular/forms';
 
-
-export function courseDurationInputTypeValidator(c: FormControl) {
+export function dateFormatValidator(c: FormControl) {
   const err = {
-    nan: true,
+    dateFormat: true,
   };
 
-  return isNaN(+c.value) ? err : null;
+  const regexp = new RegExp('^(3[01]|[12][0-9]|0?[1-9])\\/(1[012]|0?[1-9])\\/((?:19|20)\\d{2})*$');
+  return regexp.test(c.value) ? null : err;
 }
 
 @Component({
-  selector: 'app-input-duration',
-  templateUrl: './input-duration.component.html',
-  styleUrls: ['./input-duration.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-input-date',
+  templateUrl: './input-date.component.html',
+  styleUrls: ['./input-date.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputDurationComponent),
+      useExisting: forwardRef(() => InputDateComponent),
       multi: true
     },
     {
       provide: NG_VALIDATORS,
-      useValue: courseDurationInputTypeValidator,
+      useValue: dateFormatValidator,
       multi: true
     }
   ]
 })
-export class InputDurationComponent implements OnInit, ControlValueAccessor {
+export class InputDateComponent implements OnInit, ControlValueAccessor {
 
   @Input() isInvalid = false;
   @Input() errors = {};
@@ -37,7 +36,8 @@ export class InputDurationComponent implements OnInit, ControlValueAccessor {
   public propagateChange = (v: any) => {};
   public propagateTouched = (v: any) => {};
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

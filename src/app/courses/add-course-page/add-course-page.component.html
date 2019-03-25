@@ -1,1 +1,1 @@
-<app-course-form [courseObject]="courseToAdd$ | async" (save)="save($event)" (decline)="cancel($event)"></app-course-form>
+<app-course-form [courseObject$]="courseToAdd$" (save)="save($event)" (decline)="cancel($event)"></app-course-form>

@@ -30,17 +30,18 @@ export class AddCoursePageComponent implements OnInit {
       new Date().toISOString(),
       '',
       0,
-      false
+      false,
+      []
     )));
   }
 
-  public save(course: ICourseFetched) { // TODO: Is that ok to not move it to effects?
+  public save(course: ICourseFetched) {
     this.courses.createCourse(course).subscribe((data) => {
       this.router.navigate(['/']);
     });
   }
 
-  public cancel(isCanceled: boolean) { // TODO: Is that ok to not move it to effects?
+  public cancel(isCanceled: boolean) {
     if (isCanceled) {
       this.router.navigate(['/']);
     }

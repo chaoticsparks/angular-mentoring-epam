@@ -1,5 +1,8 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Ilogin} from '../ilogin';
+import {FormBuilder, Validators} from '@angular/forms';
+import {dateFormatValidator} from '../../courses/input-date/input-date.component';
+import {courseDurationInputTypeValidator} from '../../courses/input-duration/input-duration.component';
 
 @Component({
   selector: 'app-login-form',
@@ -9,22 +12,35 @@ import {Ilogin} from '../ilogin';
 })
 export class LoginFormComponent implements OnInit {
 
-  public username!: string;
-  public password!: string;
-
   @Output() login = new EventEmitter<Ilogin>();
   @Input() error = '';
 
-  constructor() { }
+  loginForm = this.fb.group({
+    login: ['', [
+      Validators.required,
+    ]],
+    password: ['',
+      [
+        Validators.required,
+      ]],
+  });
+
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit() {
   }
 
+  get loginInput() {
+    return this.loginForm.get('login');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
   public toLogin() {
-    this.login.emit({
-        login: this.username || '',
-        password: this.password || ''
-    });
+    this.login.emit(this.loginForm.value);
   }
 
 }

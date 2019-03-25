@@ -1,0 +1,44 @@
+.authors-box {
+  position: relative;
+}
+
+.authors-list {
+  z-index: 9;
+  position: absolute;
+  left: 0;
+  top: calc(1.5em + 0.75rem + 2px);
+  width: 100%;
+
+  li {
+    border-top: none;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+
+  li:last-of-type {
+
+  }
+}
+
+.selected-authors {
+  font-size: 1.1em;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .badge {
+    font-weight: normal;
+  }
+
+  .fas {
+    cursor: pointer;
+  }
+}

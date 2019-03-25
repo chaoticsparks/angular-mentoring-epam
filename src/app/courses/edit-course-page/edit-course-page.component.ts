@@ -34,12 +34,12 @@ export class EditCoursePageComponent implements OnInit {
   }
 
   public save(course: ICourseFetched) {
-    this.courses.updateItem(course.id, course).subscribe((data) => { // TODO: Is that ok to not move it to effects?
+    this.courses.updateItem(course.id, course).subscribe((data) => {
       this.router.navigate(['/']);
     });
   }
 
-  public cancel(isCanceled: boolean) { // TODO: Is that ok to not move it to effects?
+  public cancel(isCanceled: boolean) {
     if (isCanceled) {
       this.router.navigate(['/']);
     }

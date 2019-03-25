@@ -10,9 +10,11 @@ import {AddCoursePageComponent} from './add-course-page/add-course-page.componen
 import {CoursesPageComponent} from './courses-page/courses-page.component';
 import {CoursesRoutingModule} from './courses-routing.module';
 import {CoursesSearchComponent} from './search/courses-search.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { EditCoursePageComponent } from './edit-course-page/edit-course-page.component';
+import { InputDateComponent } from './input-date/input-date.component';
+import { InputAuthorsComponent } from './input-authors/input-authors.component';
 
 @NgModule({
   declarations: [
@@ -25,11 +27,14 @@ import { EditCoursePageComponent } from './edit-course-page/edit-course-page.com
     InputDurationComponent,
     AddCoursePageComponent,
     CoursesSearchComponent,
-    EditCoursePageComponent
+    EditCoursePageComponent,
+    InputDateComponent,
+    InputAuthorsComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     CoursesRoutingModule
   ]
