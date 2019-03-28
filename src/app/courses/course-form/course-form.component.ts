@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ICourseFetched} from '../ICourseFetched';
 import {FormBuilder, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {dateFormatValidator} from '../input-date/input-date.component';
 import {courseDurationInputTypeValidator} from '../input-duration/input-duration.component';
 
@@ -11,11 +11,13 @@ import {courseDurationInputTypeValidator} from '../input-duration/input-duration
   styleUrls: ['./course-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourseFormComponent implements OnInit {
+export class CourseFormComponent implements OnInit, OnDestroy {
 
   @Input() courseObject$!: Observable<ICourseFetched>;
   @Output() save = new EventEmitter<ICourseFetched>();
   @Output() decline = new EventEmitter<boolean>();
+
+  private subscription!: Subscription;
 
   courseForm = this.fb.group({
     title: ['', [
@@ -44,7 +46,7 @@ export class CourseFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.courseObject$.subscribe((courseObject) => {
+    this.subscription = this.courseObject$.subscribe((courseObject) => {
       const d = new Date(courseObject.date);
       this.courseForm.setValue({
         title: courseObject.name,
@@ -54,6 +56,10 @@ export class CourseFormComponent implements OnInit {
         authors: courseObject.authors
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public submit() {

@@ -1,18 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ICourseFetched} from '../courses/ICourseFetched';
 import {CoursesService} from '../courses/courses.service';
 import {NavigationEnd, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
 })
-export class BreadcrumbsComponent implements OnInit {
+export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   public courseName!: string;
   public isCoursePage = false;
+  private unsubscribe: Subject<void> = new Subject();
 
   constructor(private courses: CoursesService,
               private router: Router) {
@@ -20,6 +22,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.pipe(
+      takeUntil(this.unsubscribe),
       filter((e: any) => e instanceof NavigationEnd),
     ).subscribe((event: NavigationEnd) => {
       const urlParts = event.url.split('/');
@@ -28,6 +31,9 @@ export class BreadcrumbsComponent implements OnInit {
       if (courseId) {
         this.isCoursePage = true;
         this.courses.getCourseById(courseId)
+          .pipe(
+            takeUntil(this.unsubscribe),
+          )
           .subscribe((course: ICourseFetched) => {
             this.courseName = course.name;
           });
@@ -35,6 +41,10 @@ export class BreadcrumbsComponent implements OnInit {
         this.isCoursePage = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
   }
 
 }

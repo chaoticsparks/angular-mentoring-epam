@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {ICourseFetched} from '../ICourseFetched';
 import {Router} from '@angular/router';
 import {IAppState} from '../../store/reducers';
@@ -11,16 +11,18 @@ import {
   SearchCourses, CloseDeleteModal,
 } from '../../store/actions/courses-page.actions';
 import {selectCoursesList, selectNoCurses} from '../../store/selectors/courses-page.selectors';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-courses-page',
   templateUrl: './courses-page.component.html',
   styleUrls: ['./courses-page.component.scss']
 })
-export class CoursesPageComponent implements OnInit {
+export class CoursesPageComponent implements OnInit, OnDestroy {
 
   public courses!: ICourseFetched[];
   public noData$ = this.store.pipe(select(selectNoCurses));
+  private subscription!: Subscription;
 
   constructor(
     private router: Router, // Is that ok to still have router there?
@@ -29,9 +31,13 @@ export class CoursesPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new FetchCourses());
-    this.store.pipe(select(selectCoursesList)).subscribe((courses: ICourseFetched[]) => { // Is that ok to add local variable to subscribe there?
+    this.subscription = this.store.pipe(select(selectCoursesList)).subscribe((courses: ICourseFetched[]) => { // Is that ok to add local variable to subscribe there?
       this.courses = courses;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public loadMore() {
