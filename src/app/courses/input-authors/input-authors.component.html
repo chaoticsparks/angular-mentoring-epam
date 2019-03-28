@@ -17,7 +17,7 @@
     <div class="badge badge-primary mr-2" *ngFor="let selectedAuthor of selectedAuthors">{{ selectedAuthor.name }}
       <i class="fas fa-times" (click)="removeAuthor(selectedAuthor.id)"></i></div>
   </div>
-  <ul class="authors-list m-0 p-0" *ngIf="isAuthorlistShown">
+  <ul class="authors-list m-0 p-0">
     <li class="form-control" *ngFor="let author of (authors$ | async)" (click)="selectAuthor(author)">{{author.name}}</li>
   </ul>
 </div>

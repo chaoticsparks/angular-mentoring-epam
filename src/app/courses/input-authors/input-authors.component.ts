@@ -1,6 +1,6 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
-import {debounceTime, map, switchMap} from 'rxjs/operators';
+import {Observable, of, Subject, timer} from 'rxjs';
+import {debounce, debounceTime, map, switchMap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {backendConfig} from '../../../config.enum';
 import {IAuthorFetched} from '../IAuthorFetched';
@@ -38,7 +38,6 @@ export class InputAuthorsComponent implements OnInit, ControlValueAccessor {
   private searchQuery$ = new Subject<string>();
   public authors$?: Observable<IAuthorFetched[]>;
   public selectedAuthors: IAuthorFetched[] = [];
-  public isAuthorlistShown = false;
 
   public propagateChange = (v: any) => {};
   public propagateTouched = (v: any) => {};
@@ -64,7 +63,7 @@ export class InputAuthorsComponent implements OnInit, ControlValueAccessor {
   public selectAuthor(author: IAuthorFetched) {
     this.selectedAuthors.push(author);
     this.propagateChange(this.selectedAuthors);
-    this.isAuthorlistShown = false;
+    this.searchQuery$.next('');
   }
 
   public selectAuthorOnTouched() {
@@ -77,8 +76,8 @@ export class InputAuthorsComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.authors$ = this.searchQuery$.pipe( // TODO: Value not emitted when keyup event fires first time after page refresh. Why?
-      debounceTime(300),
+    this.authors$ = this.searchQuery$.pipe(
+      debounce((query) => query ? timer(300) : timer(0)),
       switchMap((query) => query ? this.http.get<IAuthorFetched[]>(backendConfig.apiUrl + 'authors?textFragment=' + query) : of([])),
       map((authors) => {
         return authors.filter((author) => !this.selectedAuthors.find((selectedAuthor) => selectedAuthor.id === author.id));
@@ -87,7 +86,6 @@ export class InputAuthorsComponent implements OnInit, ControlValueAccessor {
   }
 
   public searchAuthors(query: string) {
-    this.isAuthorlistShown = true;
     this.searchQuery$.next(query);
   }
 }
